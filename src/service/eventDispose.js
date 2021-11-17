@@ -35,6 +35,9 @@ function getToken() {
                 }
             }).catch(err => {
                 reject(err)
+            }).finally(() => {
+                console.log('谁也不知道发生了什么，只知道这句话不会被执行')
+                reject('I am CONFUSED')
             });
         } catch (error) {
             console.log('error: %o', error)
@@ -56,11 +59,9 @@ function sendTimeOffEvents(user_id, start_time, end_time, leave_reason) {
     console.log('开始请假日程！', user_id, start_time, end_time, leave_reason)
     return new Promise((resolve, reject) => {
         try {
-            console.log('测试点1！')
-            getToken().then((result) => {
-                console.log('测试点3！')
-                console.log('获取token结果: %o', result)
-                let token = result.tenant_access_token;
+            getToken().then((res) => {
+                console.log('获取token结果: %o', res)
+                let token = res.tenant_access_token;
                 let formatedStartTime = dayjs(start_time)
                 let formatedEndTime = dayjs(end_time)
                 //是全天，保留日期
