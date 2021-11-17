@@ -17,5 +17,8 @@ router.post('/subscribe', function (req, res, next) {
    * }}
    */
   let data = req.body;
-  res.json(data?.challenge)
+  let res = {
+    "challenge": data?.challenge
+  }
+  res.json(res)
 })
