@@ -3,6 +3,7 @@ var express = require('express');
 var router = express.Router();
 var fs = require('fs');
 const appConfig = require('../config').application()
+var dayjs = require('dayjs')
 
 /* GET users listing. */
 router.get('/', function (req, res, next) {
@@ -70,7 +71,7 @@ router.post('/subscribe', function (req, res, next) {
        * }}
        */
       let eventBody = data.event;
-      sendTimeOffEvents(eventBody.user_id, eventBody.start_time, eventBody.end_time, eventBody.leave_reason).then((result) => {
+      sendTimeOffEvents(eventBody.user_id, eventBody.leave_start_time, eventBody.leave_end_time, eventBody.leave_reason).then((result) => {
         console.log('|| SUCCESS：%o', result)
       }).catch((err) => {
         console.log('|| FAILED：%o', err)
