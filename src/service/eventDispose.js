@@ -18,7 +18,7 @@ const sendTimeOffEventsUrl = "https://open.feishu.cn/open-apis/calendar/v4/timeo
  *  tenant_access_token: string
  * }>} 响应体
  */
-module.exports.getToken = function () {
+function getToken() {
     return new Promise((resolve, reject) => {
         let data = {
             app_id: appConfig.app_id,
@@ -41,9 +41,9 @@ module.exports.getToken = function () {
  * @param {string} leave_reason 
  * @returns {Promise<{code:number, data:object, msg:string}>} 响应体
  */
-module.exports.sendTimeOffEvents = function (user_id, start_time, end_time, leave_reason) {
+function sendTimeOffEvents(user_id, start_time, end_time, leave_reason) {
     return new Promise((resolve, reject) => {
-        this.getToken().then((result) => {
+        getToken().then((result) => {
             console.log('获取token结果: %o', result)
             let token = result.tenant_access_token;
             let formatedStartTime = dayjs(start_time)
@@ -75,4 +75,9 @@ module.exports.sendTimeOffEvents = function (user_id, start_time, end_time, leav
             reject('获取Token失败：' + err)
         });
     })
+}
+
+module.exports = {
+    getToken,
+    sendTimeOffEvents
 }
