@@ -45,7 +45,9 @@ function sendTimeOffEvents(user_id, start_time, end_time, leave_reason) {
     console.log('开始请假日程！')
     return new Promise((resolve, reject) => {
         try {
+            console.log('测试点1！')
             getToken().then((result) => {
+                console.log('测试点2！')
                 console.log('获取token结果: %o', result)
                 let token = result.tenant_access_token;
                 let formatedStartTime = dayjs(start_time)
