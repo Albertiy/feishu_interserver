@@ -1,4 +1,4 @@
-const { default: axios } = require('axios');
+const axios = require('axios').default;
 const appConfig = require('../../config').application()
 var dayjs = require('dayjs')
 
@@ -27,6 +27,7 @@ function getToken() {
             }
             console.log('测试点--getToken！')
             axios.post(getAccessTokenUrl, data).then((result) => {
+                console.log('result: %o', result)
                 resolve(result.data)
             }).catch((err) => {
                 reject(err)
