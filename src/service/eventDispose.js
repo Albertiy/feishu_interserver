@@ -3,10 +3,10 @@ const appConfig = require('../../config').application()
 var dayjs = require('dayjs')
 
 /** URL：获取访问token */
-getAccessTokenUrl = "https://open.feishu.cn/open-apis/auth/v3/tenant_access_token/internal";
+const getAccessTokenUrl = "https://open.feishu.cn/open-apis/auth/v3/tenant_access_token/internal";
 
 /** URL：发送创建请假日程请求 */
-sendTimeOffEventsUrl = "https://open.feishu.cn/open-apis/calendar/v4/timeoff_events";
+const sendTimeOffEventsUrl = "https://open.feishu.cn/open-apis/calendar/v4/timeoff_events";
 
 /**
  * 获取HR小程序的 tenant_access_token
@@ -43,7 +43,7 @@ module.exports.getToken = function () {
  */
 module.exports.sendTimeOffEvents = function (user_id, start_time, end_time, leave_reason) {
     return new Promise((resolve, reject) => {
-        getToken().then((result) => {
+        this.getToken().then((result) => {
             console.log('获取token结果: %o', result)
             let token = result.tenant_access_token;
             let formatedStartTime = dayjs(start_time)
