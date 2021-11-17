@@ -36,8 +36,7 @@ function getToken() {
             }).catch(err => {
                 reject(err)
             }).finally(() => {
-                console.log('谁也不知道发生了什么，只知道这句话不会被执行')
-                reject('I am CONFUSED')
+                console.log('|| getToken FINALLY')
             });
         } catch (error) {
             console.log('error: %o', error)
@@ -81,22 +80,24 @@ function sendTimeOffEvents(user_id, start_time, end_time, leave_reason) {
                     title: leave_reason,
                     description: "",
                 }
-                resolve();
                 console.log("data: %o", data)
-                // axios.post(sendTimeOffEventsUrl, data, {
-                //     params: { user_id_type: "user_id" },
-                //     headers: { 'Authorization': 'Bearer ' + token }
-                // }).then(result => {
-                //     resolve(result.data)
-                // }).catch(error => {
-                //     reject('添加请假日程失败：' + err)
-                // });
+                axios.post(sendTimeOffEventsUrl, data, {
+                    params: { user_id_type: "user_id" },
+                    headers: { 'Authorization': 'Bearer ' + token }
+                }).then(result => {
+                    console.log('result.data: %o', result.data)
+                    resolve(result.data)
+                }).catch(error => {
+                    reject('添加请假日程 请求失败：%o', error)
+                }).finally(() => {
+                    console.log('|| sendTimeOffEvents FINALLY')
+                });
             }).catch(err => {
-                reject('获取Token失败：' + err)
+                reject('获取Token失败：%o', err)
             });
-        } catch (error) {
-            console.log(error)
-            reject('出错了：%o', error)
+        } catch (wrong) {
+            console.log(wrong)
+            reject('异常：%o', wrong)
         }
     })
 }
