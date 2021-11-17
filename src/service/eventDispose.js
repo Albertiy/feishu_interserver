@@ -24,6 +24,7 @@ function getToken() {
             app_id: appConfig.app_id,
             app_secret: appConfig.app_secret,
         }
+        console.log('测试点--getToken！')
         axios.post(getAccessTokenUrl, data).then((result) => {
             resolve(result.data)
         }).catch((err) => {
@@ -47,7 +48,7 @@ function sendTimeOffEvents(user_id, start_time, end_time, leave_reason) {
         try {
             console.log('测试点1！')
             getToken().then((result) => {
-                console.log('测试点2！')
+                console.log('测试点3！')
                 console.log('获取token结果: %o', result)
                 let token = result.tenant_access_token;
                 let formatedStartTime = dayjs(start_time)
