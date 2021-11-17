@@ -88,8 +88,8 @@ sendTimeOffEventsUrl = 'https://open.feishu.cn/open-apis/calendar/v4/timeoff_eve
  * 发起请假日程；
  * 若成功，返回的 code=0，msg="success"
  * @param {string} user_id 
- * @param {string} start_time 
- * @param {string} end_time 
+ * @param {string} start_time 格式：YYYY-MM-DD hh:mm:ss
+ * @param {string} end_time   格式：YYYY-MM-DD hh:mm:ss
  * @param {string} leave_reason 
  * @returns {Promise<{code:number, data:object, msg:string}>} 响应体
  */
@@ -98,6 +98,18 @@ function sendTimeOffEvents(user_id, start_time, end_time, leave_reason) {
     getToken().then((result) => {
       console.log('获取token结果: %o', result)
       let token = result.tenant_access_token;
+      let formatedStartTime = dayjs(start_time)
+      let formatedEndTime = dayjs(end_time)
+      //是全天，保留日期
+      if (formatedStartTime.isSame(formatedStartTime.startOf('day')) && formatedEndTime.isSame(formatedEndTime.startOf('day'))) {
+        start_time = formatedStartTime.format('YYYY-MM-DD')
+        end_time = formatedEndTime.format('YYYY-MM-DD')
+      } else {  // 获取时间戳（秒数）
+        start_time = Math.round(formatedStartTime.toDate() / 1000)
+        end_time = Math.round(formatedEndTime.toDate() / 1000)
+      }
+      console.log('start_time: %o, \t end_time: %o', start_time, end_time);
+      // resolve()
       let data = {
         user_id: user_id,
         timezone: "Asia/Shanghai",
