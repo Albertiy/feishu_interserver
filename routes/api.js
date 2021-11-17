@@ -48,7 +48,7 @@ router.post('/subscribe', function (req, res, next) {
     // 当前只需要请假类型中的一个，前一个直接放弃
     if (data.event && data.event.type == "leave_approvalV2") {
       console.log('请求体：%o', data);
-      fs.writeFileSync('./info.txt', JSON.stringify(data))  // 写入文件，方便后续处理
+      // fs.writeFileSync('./info.txt', JSON.stringify(data))  // 写入文件，方便后续处理
       /**
        * @type {{
        *  app_id,

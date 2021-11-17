@@ -1,12 +1,12 @@
-const axios = require('axios').default;
 const appConfig = require('../../config').application()
-var dayjs = require('dayjs')
+const axios = require('axios').default
+const dayjs = require('dayjs')
 
 /** URL：获取访问token */
-const getAccessTokenUrl = "https://open.feishu.cn/open-apis/auth/v3/tenant_access_token/internal";
+const getAccessTokenUrl = "https://open.feishu.cn/open-apis/auth/v3/tenant_access_token/internal"
 
 /** URL：发送创建请假日程请求 */
-const sendTimeOffEventsUrl = "https://open.feishu.cn/open-apis/calendar/v4/timeoff_events";
+const sendTimeOffEventsUrl = "https://open.feishu.cn/open-apis/calendar/v4/timeoff_events"
 
 /**
  * 获取HR小程序的 tenant_access_token
@@ -26,10 +26,14 @@ function getToken() {
                 app_secret: appConfig.app_secret,
             }
             console.log('测试点--getToken！%o', data)
-            axios.post(getAccessTokenUrl, data).then((result) => {
-                console.log('result.data: %o', result.data)
-                resolve(result.data)
-            }).catch((err) => {
+            axios.post(getAccessTokenUrl, data).then(res => {
+                if (res) {
+                    console.log('result.data: %o', res.data)
+                    resolve(res.data)
+                } else {
+                    reject('getToken 返回体为空')
+                }
+            }).catch(err => {
                 reject(err)
             });
         } catch (error) {
@@ -49,7 +53,7 @@ function getToken() {
  * @returns {Promise<{code:number, data:object, msg:string}>} 响应体
  */
 function sendTimeOffEvents(user_id, start_time, end_time, leave_reason) {
-    console.log('开始请假日程！',user_id, start_time, end_time, leave_reason)
+    console.log('开始请假日程！', user_id, start_time, end_time, leave_reason)
     return new Promise((resolve, reject) => {
         try {
             console.log('测试点1！')
