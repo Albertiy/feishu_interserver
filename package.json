@@ -7,6 +7,7 @@
     "pm2": "pm2 start ./config/pm2.config.json"
   },
   "dependencies": {
+    "axios": "^0.24.0",
     "compression": "^1.7.4",
     "cookie-parser": "~1.4.4",
     "dayjs": "^1.10.7",
