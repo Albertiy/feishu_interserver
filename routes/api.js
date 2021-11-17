@@ -80,3 +80,11 @@ router.post('/subscribe', function (req, res, next) {
   }
   res.json(returnBack)
 })
+
+router.get('/token', (req, res, next) => {
+  eventService.getToken().then((result) => {
+    res.send(result)
+  }).catch((err) => {
+    res.send(err)
+  });
+})

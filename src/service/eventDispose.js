@@ -25,7 +25,7 @@ function getToken() {
                 app_id: appConfig.app_id,
                 app_secret: appConfig.app_secret,
             }
-            console.log('测试点--getToken！')
+            console.log('测试点--getToken！%o', data)
             axios.post(getAccessTokenUrl, data).then((result) => {
                 console.log('result: %o', result)
                 resolve(result.data)
