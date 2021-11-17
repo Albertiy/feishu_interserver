@@ -12,6 +12,7 @@ router.get('/', function (req, res, next) {
 module.exports = router;
 
 router.post('/subscribe', function (req, res, next) {
+  console.log('【---=====接收到subscribe请求=====---】')
   /**
    * @type {{
    *  token: string,
@@ -32,16 +33,19 @@ router.post('/subscribe', function (req, res, next) {
   }
 
   let returnBack = '';
+  /** 若为验证请求，直接返回挑战字段 */
   if (type == "url_verification") {
     //TODO token 需要持久化，用于验证事件
     returnBack = {
       "challenge": data?.challenge
     }
-  } else if (type == "event_callback") {
-    fs.writeFileSync('./info.txt', JSON.stringify(data))  // 写入文件
-    console.log('%o', data);
-    // 当前只需要请假类型
+  }
+  /** 若为回调事件，判断是否是请假成功事件 */
+  else if (type == "event_callback") {
+    // 当前只需要请假类型中的一个，前一个直接放弃
     if (data.event && data.event.type == "leave_approvalV2") {
+      console.log('请求体：%o', data);
+      fs.writeFileSync('./info.txt', JSON.stringify(data))  // 写入文件，方便后续处理
       /**
        * @type {{
        *  app_id,
@@ -67,15 +71,16 @@ router.post('/subscribe', function (req, res, next) {
        */
       let eventBody = data.event;
       sendTimeOffEvents(eventBody.user_id, eventBody.start_time, eventBody.end_time, eventBody.leave_reason).then((result) => {
-        console.log('发送请假日程成功：%o', result)
+        console.log('|| SUCCESS：%o', result)
       }).catch((err) => {
-        console.log('发送请假日程失败：%o', err)
+        console.log('|| FAILED：%o', err)
       });
-    }
+    } else { }
   }
   res.json(returnBack)
 })
 
+/** URL：发送创建请假日程请求 */
 sendTimeOffEventsUrl = 'https://open.feishu.cn/open-apis/calendar/v4/timeoff_events';
 
 /**
@@ -111,6 +116,7 @@ function sendTimeOffEvents(user_id, start_time, end_time, leave_reason) {
   })
 }
 
+/** URL：获取访问token */
 getAccessTokenUrl = "https://open.feishu.cn/open-apis/auth/v3/tenant_access_token/internal";
 
 /**
