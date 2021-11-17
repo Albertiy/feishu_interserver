@@ -103,7 +103,7 @@ function sendTimeOffEvents(user_id, start_time, end_time, leave_reason) {
         start_time: start_time,
         end_time: end_time,
         title: leave_reason,
-        // description: "",
+        description: "",
       }
       axios.post(sendTimeOffEventsUrl, data, {
         params: { user_id_type: "user_id" },
