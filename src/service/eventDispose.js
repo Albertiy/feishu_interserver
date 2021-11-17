@@ -42,6 +42,7 @@ function getToken() {
  * @returns {Promise<{code:number, data:object, msg:string}>} 响应体
  */
 function sendTimeOffEvents(user_id, start_time, end_time, leave_reason) {
+    console.log('开始请假日程！')
     return new Promise((resolve, reject) => {
         getToken().then((result) => {
             console.log('获取token结果: %o', result)
