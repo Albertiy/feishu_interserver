@@ -44,37 +44,42 @@ function getToken() {
 function sendTimeOffEvents(user_id, start_time, end_time, leave_reason) {
     console.log('开始请假日程！')
     return new Promise((resolve, reject) => {
-        getToken().then((result) => {
-            console.log('获取token结果: %o', result)
-            let token = result.tenant_access_token;
-            let formatedStartTime = dayjs(start_time)
-            let formatedEndTime = dayjs(end_time)
-            //是全天，保留日期
-            if (formatedStartTime.isSame(formatedStartTime.startOf('day')) && formatedEndTime.isSame(formatedEndTime.startOf('day'))) {
-                start_time = formatedStartTime.format('YYYY-MM-DD')
-                end_time = formatedEndTime.format('YYYY-MM-DD')
-            } else {  // 获取时间戳（秒数）
-                start_time = Math.round(formatedStartTime.toDate() / 1000)
-                end_time = Math.round(formatedEndTime.toDate() / 1000)
-            }
-            console.log('start_time: %o, \t end_time: %o', start_time, end_time);
-            // resolve()
-            let data = {
-                user_id: user_id,
-                timezone: "Asia/Shanghai",
-                start_time: start_time,
-                end_time: end_time,
-                title: leave_reason,
-                description: "",
-            }
-            axios.post(sendTimeOffEventsUrl, data, {
-                params: { user_id_type: "user_id" },
-                headers: { 'Authorization': 'Bearer ' + token }
-            }).then((result) => { resolve(result.data) })
-                .catch((err) => { reject('添加请假日程失败：' + err) });
-        }).catch((err) => {
-            reject('获取Token失败：' + err)
-        });
+        try {
+            getToken().then((result) => {
+                console.log('获取token结果: %o', result)
+                let token = result.tenant_access_token;
+                let formatedStartTime = dayjs(start_time)
+                let formatedEndTime = dayjs(end_time)
+                //是全天，保留日期
+                if (formatedStartTime.isSame(formatedStartTime.startOf('day')) && formatedEndTime.isSame(formatedEndTime.startOf('day'))) {
+                    start_time = formatedStartTime.format('YYYY-MM-DD')
+                    end_time = formatedEndTime.format('YYYY-MM-DD')
+                } else {  // 获取时间戳（秒数）
+                    start_time = Math.round(formatedStartTime.toDate() / 1000)
+                    end_time = Math.round(formatedEndTime.toDate() / 1000)
+                }
+                console.log('start_time: %o, \t end_time: %o', start_time, end_time);
+                // resolve()
+                let data = {
+                    user_id: user_id,
+                    timezone: "Asia/Shanghai",
+                    start_time: start_time,
+                    end_time: end_time,
+                    title: leave_reason,
+                    description: "",
+                }
+                axios.post(sendTimeOffEventsUrl, data, {
+                    params: { user_id_type: "user_id" },
+                    headers: { 'Authorization': 'Bearer ' + token }
+                }).then((result) => { resolve(result.data) })
+                    .catch((err) => { reject('添加请假日程失败：' + err) });
+            }).catch((err) => {
+                reject('获取Token失败：' + err)
+            });
+        } catch (error) {
+            console.log(error)
+            reject('出错了：%o', error)
+        }
     })
 }
 
