@@ -7,6 +7,8 @@ const fs = require('fs');
  * env: string,
  * staticPath: string,
  * logDirectory: string,
+ * app_id,
+ * app_secret,
  * }}
  */
 exports.application = function () {

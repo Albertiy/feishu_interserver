@@ -61,3 +61,5 @@ typings/
 .next
 
 /node_modules
+info.txt
+/config/application.config.json

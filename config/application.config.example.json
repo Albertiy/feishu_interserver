@@ -1,0 +1,9 @@
+{
+    "port": 8530,
+    "env": "dev",
+    "staticPath": "./public",
+    "logDirectory": "log",
+    "app_id": "xxx",
+    "app_secret": "xxx"
+  }
+  
