@@ -39,9 +39,11 @@ router.post('/subscribe', function (req, res, next) {
     returnBack = {
       "challenge": data?.challenge
     }
+    res.json(returnBack)
+    return
   }
   /** 若为回调事件，判断是否是请假成功事件 */
-  else if (type == "event_callback") {
+  if (type == "event_callback") {
     console.log("[type]: event_callback")
     // 当前只需要请假类型中的一个，前一个直接放弃
     if (data.event && data.event.type == "leave_approvalV2") {
@@ -75,10 +77,15 @@ router.post('/subscribe', function (req, res, next) {
         console.log('|| SUCCESS：%o', result)
       }).catch((err) => {
         console.log('|| FAILED：%o', err)
+      }).finally(() => {
+        res.json(returnBack)
       });
-    } else { }
+    } else {
+      res.json(returnBack)
+    }
+  } else {
+    res.json(returnBack)
   }
-  res.json(returnBack)
 })
 
 router.get('/token', (req, res, next) => {

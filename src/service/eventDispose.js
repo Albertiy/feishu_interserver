@@ -27,7 +27,7 @@ function getToken() {
             }
             console.log('测试点--getToken！%o', data)
             axios.post(getAccessTokenUrl, data).then((result) => {
-                console.log('result: %o', result)
+                console.log('result.data: %o', result.data)
                 resolve(result.data)
             }).catch((err) => {
                 reject(err)
@@ -49,7 +49,7 @@ function getToken() {
  * @returns {Promise<{code:number, data:object, msg:string}>} 响应体
  */
 function sendTimeOffEvents(user_id, start_time, end_time, leave_reason) {
-    console.log('开始请假日程！')
+    console.log('开始请假日程！',user_id, start_time, end_time, leave_reason)
     return new Promise((resolve, reject) => {
         try {
             console.log('测试点1！')
