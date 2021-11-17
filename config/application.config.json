@@ -1,0 +1,6 @@
+{
+  "port": 8530,
+  "env": "dev",
+  "staticPath": "./public",
+  "logDirectory": "log"
+}

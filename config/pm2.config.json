@@ -1,0 +1,18 @@
+{
+  "apps": [
+    {
+      "name": "feishuInterServer",
+      "script": "bin/www",
+      "watch": "./",
+      "ignore_watch": ["node_modules", "log", "*.log"],
+      "max_restarts": 3,
+      "log_date_format": "YYYY-MM-DD HH:mm Z",
+      "error_file": "./log/pm2_error.log",
+      "out_file": "./log/pm2_out.log",
+      "pid_file": "./log/pm2_pid.log",
+      "watch_options": {
+        "usePolling": true
+      }
+    }
+  ]
+}
