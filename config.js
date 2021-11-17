@@ -14,7 +14,8 @@ const fs = require('fs');
 exports.application = function () {
     try {
         return JSON.parse(fs.readFileSync('./config/application.config.json'));
-    } catch (_) {
+    } catch (error) {
+        console.log('错误：application.config.json: %o', error)
         return {};
     }
 }

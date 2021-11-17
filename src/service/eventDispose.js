@@ -20,16 +20,21 @@ const sendTimeOffEventsUrl = "https://open.feishu.cn/open-apis/calendar/v4/timeo
  */
 function getToken() {
     return new Promise((resolve, reject) => {
-        let data = {
-            app_id: appConfig.app_id,
-            app_secret: appConfig.app_secret,
+        try {
+            let data = {
+                app_id: appConfig.app_id,
+                app_secret: appConfig.app_secret,
+            }
+            console.log('测试点--getToken！')
+            axios.post(getAccessTokenUrl, data).then((result) => {
+                resolve(result.data)
+            }).catch((err) => {
+                reject(err)
+            });
+        } catch (error) {
+            console.log('error: %o', error)
+            reject(error)
         }
-        console.log('测试点--getToken！')
-        axios.post(getAccessTokenUrl, data).then((result) => {
-            resolve(result.data)
-        }).catch((err) => {
-            reject(err)
-        });
     })
 }
 
