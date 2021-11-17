@@ -59,7 +59,7 @@ function sendTimeOffEvents(user_id, start_time, end_time, leave_reason) {
     console.log('开始请假日程！', user_id, start_time, end_time, leave_reason)
     return new Promise((resolve, reject) => {
         try {
-            getToken().then((res) => {
+            getToken().then(res => {
                 console.log('获取token结果: %o', res)
                 let token = res.tenant_access_token;
                 let formatedStartTime = dayjs(start_time)
@@ -73,21 +73,24 @@ function sendTimeOffEvents(user_id, start_time, end_time, leave_reason) {
                     end_time = Math.round(formatedEndTime.toDate() / 1000)
                 }
                 console.log('start_time: %o, \t end_time: %o', start_time, end_time);
-                // resolve()
-                let data = {
-                    user_id: user_id,
-                    timezone: "Asia/Shanghai",
-                    start_time: start_time,
-                    end_time: end_time,
-                    title: leave_reason,
-                    description: "",
-                }
-                axios.post(sendTimeOffEventsUrl, data, {
-                    params: { user_id_type: "user_id" },
-                    headers: { 'Authorization': 'Bearer ' + token }
-                }).then((result) => { resolve(result.data) })
-                    .catch((err) => { reject('添加请假日程失败：' + err) });
-            }).catch((err) => {
+                resolve()
+                // let data = {
+                //     user_id: user_id,
+                //     timezone: "Asia/Shanghai",
+                //     start_time: start_time,
+                //     end_time: end_time,
+                //     title: leave_reason,
+                //     description: "",
+                // }
+                // axios.post(sendTimeOffEventsUrl, data, {
+                //     params: { user_id_type: "user_id" },
+                //     headers: { 'Authorization': 'Bearer ' + token }
+                // }).then(result => {
+                //     resolve(result.data)
+                // }).catch(error => {
+                //     reject('添加请假日程失败：' + err)
+                // });
+            }).catch(err => {
                 reject('获取Token失败：' + err)
             });
         } catch (error) {
